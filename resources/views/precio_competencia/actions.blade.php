@@ -1,0 +1,1 @@
+<a href="{{ route('precio_competencia.edit',['id'=>$precio->id]) }}"  class="text-secondary" title="Actualizar Precio"><i class="fas fa-edit"></i></a>
