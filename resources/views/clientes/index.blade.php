@@ -67,7 +67,6 @@
             <tr>
                 <th>Cliente</th>
                 <th>Sector</th>
-                <th>Vendedor</th>
                 <th>Estado</th>
                 <th>Ciudad</th>
                 
@@ -140,13 +139,11 @@ var oTable = $("#clientes").DataTable({
                 d.cliente = $('#cliente').val();
                 d.sector = $('select[name=sector] option').filter(':selected').val();
                 d.estado = $('select[name=estado] option').filter(':selected').val();
-                d.sin_vendedor = $('#sin_vendedor').is(':checked') ? 1 : 0;
             }
         },
         "columns":[
             {data: 'nombre'},
             {data: 'sector'},
-            {data: 'vendedor'},
             {data: 'estado'},
             {data: 'ciudad'},
             

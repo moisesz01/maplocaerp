@@ -38,9 +38,9 @@ class Cliente extends Model
     {
         return $this->hasMany(Planificacion::class);
     }
-    public function cotizaciones()
+    public function facturas()
     {
-        return $this->hasMany(Documento::class);
+        return $this->hasMany(Factura::class);
     }
     public function visitas()
     {

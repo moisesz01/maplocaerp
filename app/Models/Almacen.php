@@ -14,7 +14,8 @@ class Almacen extends Model
         'nombre',
         'codigo',
         'direccion',
-        'whastapp'
+        'whastapp',
+        'limite'
     ];
     public function usuarios()
     {

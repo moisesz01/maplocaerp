@@ -97,7 +97,7 @@
                 <div class="form-row">
                     <div class="form-group col-md-12">
                         <label for="direccion">Dirección: </label>
-                        <textarea class="form-control" id="direccion" name="direccion" rows="2"></textarea>
+                        <textarea class="form-control" id="direccion" name="direccion" rows="2" required></textarea>
                     </div>
                 </div>
                 <div class="row">
@@ -113,26 +113,6 @@
                     
                 </div>
 
-
-                <div class="row">
-                    <div class="col-sm-6">
-                        <label for="latitud">Latitud:</label>
-                        <input id="latitud" type="number" step="any" class="form-control" name="latitud">
-                    </div>
-                    
-                    <div class="col-sm-6">
-                        <label for="longitud">Longitud:</label>
-                        <input id="longitud" type="number" step="any" class="form-control" name="longitud">
-                    </div>
-
-                </div>
-               
-                <div class="row mt-2">
-                    <div class="col-sm-12">
-                        <button type="button" id="get-location" class="btn btn-default">Obtener Ubicación</button>    
-                    </div>
-                </div>
-
                 <div class="form-row">
                     <div class="form-group col-md-12">
                         <label for="direccion">Observaciones: </label>
@@ -140,29 +120,7 @@
                     </div>
                 </div>
               
-                <div id="dynamic-field">
-                <div class="form-row">
-                    
-                    <div class="form-group col-md-6">
-                        <label for="numero_ticket">Adjuntar Imagen:</label>
-                        <input type="file" name="file[]" class="form-control file" placeholder="Selecciones Ticket">
-                        @error('file')
-                        <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
-                        @enderror
-                    </div>
-                    <div class="form-group col-md-3">
-                        <button type="button" style="margin-top: 32px;" class="btn btn-danger remove-row"><i class="fas fa-minus-circle"></i> Eliminar Imagen</button>
-                    </div>
-                    <div class="form-group col-md-3">
-                        <div class="file-preview">
-                            <img src="" class="image-preview" width="120px" style="display: none;" />
-                            <embed src="" class="pdf-preview" width="120px" height="120px" type="application/pdf" style="display: none;" />
-                        </div>
-                    </div>
 
-                </div>
-                </div>
-                <button type="button" id="add-row" class="btn btn-default"><i class="fas fa-plus-circle"></i> Agregar Imagen</button>
                 <br><br>
 
                 <button type="submit" id="submit-button" class="btn btn-success">Guardar</button>
@@ -239,51 +197,7 @@
             }
         });
         var ciudades = {!! json_encode($ciudades) !!};
-        $(document).on('change', '.file', function() {
-            let input = this;
-            if (input.files && input.files[0]) {
-                let reader = new FileReader();
-                reader.onload = function(e) {
-                    let filePreview = $(input).closest('.form-row').find('.file-preview');
-                    if (input.files[0].type == "application/pdf") {
-                        let embed = $('<embed>').attr({
-                            'src': e.target.result,
-                            'width': '120px',
-                            'height': '120px',
-                            'type': 'application/pdf'
-                        });
-                        filePreview.html(embed);
-                    } else {
-                        let img = $('<img>').attr({
-                            'src': e.target.result,
-                            'width': '120px'
-                        });
-                        filePreview.html(img);
-                    }
-                }
-                reader.readAsDataURL(input.files[0]);
-            }
-        });
-        $('#add-row').click(function() {
-            var row = $('#dynamic-field .form-row:last').clone(true);
-            row.find('input').val('');
-            row.find('.file-preview').html(''); // Limpia el contenido de .file-preview
-            row.find('.ver_pdf').remove(); // Elimina el texto "Ver PDF"
-            $('#dynamic-field').append(row);
-        });
-        $('#add-soporte').click(function() {
-            var archivoTemplate = document.getElementById('archivoTemplate');
-            var productoElement = document.importNode(archivoTemplate.content, true);
-            var archivoContainer = document.getElementById('dynamic-field');
-            archivoContainer.appendChild(productoElement);
-
-        });
-        $('.remove-row').click(function() {
-            var dynamic_field = document.getElementById('dynamic-field');
-            if (dynamic_field.children.length > 1) {
-                $(this).closest('.form-row').remove();
-            }
-        });
+    
 
 
 

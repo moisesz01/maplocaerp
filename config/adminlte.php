@@ -311,10 +311,17 @@ return [
         ],
 
         [
+            'text'  => 'Facturación',
+            'icon'  => 'fas fa-file-invoice-dollar',
+            'url'   => 'factura/index',            
+            'can'   => 'Módulo Facturación'
+        ],
+
+        [
             'text'  => 'Cotizaciones',
             'icon'  => 'fas fa-file-invoice-dollar',
-            'url'   => 'pedidos/index',            
-            'can'   => 'Módulo Clientes'
+            'url'   => 'cotizacion/index',            
+            'can'   => 'Módulo Facturación'
         ],
 
         [

@@ -104,10 +104,11 @@
                                 $modulos = [
                                     'Módulo Usuarios',
                                     'Módulo Clientes',
+                                    'Módulo Facturación',
                                     'Módulo Configuraciones',
                                     'Módulo Planificación',
                                     'Módulo Pedidos',
-                                    'Módulo precios de competencia'
+                                    
                                 ];
                             @endphp
                             @foreach ($modulos as $modulo)

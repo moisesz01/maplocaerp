@@ -11,6 +11,8 @@ use App\Http\Controllers\PedidoController;
 use App\Http\Controllers\PrecioCompetenciaController;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\SubCategoriaController;
+use App\Http\Controllers\FacturacionController;
+
 
 
 
@@ -116,6 +118,26 @@ Route::group(['middleware' => ['auth']], function () {
 
     });
 
+    Route::group(['middleware' => ['permission:Módulo Facturación']], function () {
+
+        Route::get('documento/crear/{tipo}', [FacturacionController::class, 'crear_factura'])->name('factura.crear');
+        Route::get('factura/productos', [FacturacionController::class, 'productos'])->name('factura.productos');
+        Route::get('factura/index', [FacturacionController::class, 'facturas_index'])->name('factura.index');
+        Route::get('documentos/get', [FacturacionController::class, 'get_documentos'])->name('get.facturas');
+        Route::post('pedido/guardar', [FacturacionController::class, 'guardar_factura'])->name('factura.guardar');
+        Route::get('factura/exportar', [FacturacionController::class, 'exportar_cotizacion'])->name('exportar.factura');
+        Route::get('factura/modal-estado', [FacturacionController::class, 'modal_estado'])->name('factura.modal_estado');
+        Route::post('factura/actualizar-estado', [FacturacionController::class, 'actualizar_estado'])->name('factura.actualizar_estado');
+        Route::get('factura/editar', [FacturacionController::class, 'editar_factura'])->name('editar.factura');
+        Route::get('exportar/inventario', [FacturacionController::class, 'exportar_inventario'])->name('exportar.inventarios');
+        Route::get('pedido/procesar', [FacturacionController::class, 'procesar_pedido'])->name('procesar.factura');
+        Route::get('cotizacion/index', [FacturacionController::class, 'cotizaciones_index'])->name('cotizaciones.index');
+        Route::post('documento/convertir', [FacturacionController::class, 'convertir_documento'])->name('convertir.documento');
+         Route::get('documento/modal', [FacturacionController::class, 'conversion_modal'])->name('conversion.modal');
+
+
+    });
+    
     Route::group(['middleware' => ['permission:Módulo Usuarios']], function () {
         Route::get('user/crear-permiso', [UserController::class, 'crear_permiso'])->name('user.crear_permiso');
         Route::get('user/profile', [UserController::class, 'profile'])->name('user.profile');
@@ -130,7 +152,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::put('user/store-contrasena', [UserController::class, 'store_contrasena'])->name('users.store_contrasena');
         Route::get('user/detalle', [UserController::class, 'detalle'])->name('user.detalle');
         Route::post('user/store-permiso-spatie', [UserController::class, 'store_permiso_spatie'])->name('user.store_permiso_spatie');
-        Route::post('user/store', [UserController::class, 'store'])->name('user.store');
+        Route::post('user/store', [UserController::class, 'store'])->name('user.store'); 
     });
 
     Route::group(['middleware' => ['permission:Módulo precios de competencia']], function () {

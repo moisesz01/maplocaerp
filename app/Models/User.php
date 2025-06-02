@@ -52,9 +52,9 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Almacen::class,'almacen_id');
     }
-    public function cotizaciones()
+    public function facturas()
     {
-        return $this->hasMany(Documento::class);
+        return $this->hasMany(Factura::class);
     }
     public function clientes()
     {

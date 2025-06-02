@@ -115,11 +115,6 @@ class ClientesController extends Controller
 
             
             DB::commit();
-            if(isset($request->update) && $request->update==1){
-                $this->actualizar_cliente_as($cliente);
-            }else{
-                $this->crear_cliente_as($cliente);
-            }
            
             return redirect()->route('clientes.index')->with([
                 "info" => "Cliente Creado  Exitosamente!",
@@ -152,17 +147,12 @@ class ClientesController extends Controller
             'ciudades.nombre as ciudad',
             'sectores_comerciales.nombre as sector',
             'clientes.latitud',
-            'clientes.longitud',
-            DB::raw("COALESCE(users.name, '-') as vendedor")
+            'clientes.longitud'
         );
         $clientes->leftJoin('ciudades', 'ciudades.id',"=",'clientes.ciudad_id');
         $clientes->leftJoin('estados', 'estados.id',"=",'ciudades.estado_id');
         $clientes->leftJoin('sectores_comerciales', 'sectores_comerciales.id',"=",'clientes.sector_comercial_id');
-        if (!$user->can('Ver todos los clientes')) {
-            $clientes->leftJoin('users', 'users.id', "=", 'clientes.vendedor_id')->where('users.id', '=', $user->id);
-        } else {
-            $clientes->leftJoin('users', 'users.id', "=", 'clientes.vendedor_id');
-        }
+        
 
         if ($request->has('cliente') && $request->cliente != '') {
             $clientes->where('clientes.nombre', 'like', "%".$request->get('cliente')."%");

@@ -116,3 +116,14 @@ Breadcrumbs::for('subcategoria.create', function (BreadcrumbTrail $trail) {
     $trail->push('Crear SubCategorias');
    
 });
+
+Breadcrumbs::for('factura.index', function (BreadcrumbTrail $trail) {
+    $trail->parent('home');
+    $trail->push('Lista de Facturas', route('factura.index'));
+   
+});
+Breadcrumbs::for('factura.crear', function (BreadcrumbTrail $trail) {
+    $trail->parent('factura.index');
+    $trail->push('Crear Facturas', route('factura.crear'));
+   
+});
