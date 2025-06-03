@@ -335,7 +335,7 @@ class FacturacionController extends Controller
             $documento->codigo_almacen = $this->get_codigo_almacen();
             $documento->direccion_alternativa = $request->input('direccion_alternativa');
             $documento->tipo_documento_id = $request->input('tipo_documento_id');
-
+            $documento->dias_credito = $request->input('dias_credito') ?? 0;
             if($documento->save()){
                 $documento->NUDO96 = $this->control_emision($documento->con_iva);
                 $documento->save();
