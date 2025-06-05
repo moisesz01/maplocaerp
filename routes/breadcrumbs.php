@@ -127,3 +127,9 @@ Breadcrumbs::for('factura.crear', function (BreadcrumbTrail $trail) {
     $trail->push('Crear Facturas', route('factura.crear'));
    
 });
+
+Breadcrumbs::for('sincronizacion.index', function (BreadcrumbTrail $trail) {
+    $trail->parent('home');
+    $trail->push('Sincronizar Parámetros', route('sincronizacion.index'));
+   
+});

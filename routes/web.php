@@ -12,9 +12,7 @@ use App\Http\Controllers\PrecioCompetenciaController;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\SubCategoriaController;
 use App\Http\Controllers\FacturacionController;
-
-
-
+use App\Http\Controllers\SincronizacionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -79,6 +77,11 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('almacen/edit', [AlmacenController::class, 'edit'])->name('almacen.edit');
         Route::delete('almacen/destroy', [AlmacenController::class, 'destroy'])->name('almacen.destroy');
         Route::put('almacen/update', [AlmacenController::class, 'update'])->name('almacen.update');
+
+        Route::get('sincronizacion/index', [SincronizacionController::class, 'parametros'])->name('sincronizacion.index');
+        Route::get('/sincronizar-tasas', [SincronizacionController::class, 'sincronizarTasas'])->name('sincronizacion.tasas');
+        Route::get('/sincronizar-inventario', [SincronizacionController::class, 'sincronizarInventario'])->name('sincronizacion.inventario');
+        Route::get('/sincronizar-control-emision', [SincronizacionController::class, 'sincronizarControlEmision'])->name('sincronizacion.control_emision');
 
     });
 

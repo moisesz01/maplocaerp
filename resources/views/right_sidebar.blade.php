@@ -48,6 +48,12 @@
                 <p>Almacenes<i class="fas fa-angle-left right"></i></p>
             </a>
         </li>
+        <li class="nav-item has-treeview">
+            <a class="nav-link" href="{{ route('sincronizacion.index') }}">
+                <i class="fas fa-tools"></i>
+                <p>Sincronización<i class="fas fa-angle-left right"></i></p>
+            </a>
+        </li>
         @endcan
         @can('Módulo Usuarios')
             <li class="nav-item has-treeview">
