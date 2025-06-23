@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 use DB;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class ClientesController extends Controller
 {
@@ -34,14 +35,13 @@ class ClientesController extends Controller
         $sectores = SectorComercial::all();
         $cliente = Cliente::find($request->cliente_id);
         $vendedores = User::all();
-        $imagen_cliente = ImagenCliente::where('cliente_id',$request->cliente_id)->get();
+       
         return view('clientes.update',[
             'estados' => $estados,
             'ciudades' => $ciudades,
             'sectores' => $sectores,
             'cliente' => $cliente,
-            'vendedores' => $vendedores,
-            'imagen_cliente' => $imagen_cliente
+            'vendedores' => $vendedores
         ]);
     }
     public function obtener_ciudades_estado(Request $request)
@@ -55,28 +55,40 @@ class ClientesController extends Controller
         $messages = [
             'file.*.mimes' => 'El archivo debe ser una imagen.',
             'file.*.max' => 'El archivo no debe superar los 10MB.',
+            'numero_documento.unique' => 'Ya existe un cliente con este tipo y número de documento.',
         ];
 
         $request->validate([
-            'file.*' => 'mimes:jpg,jpeg,png|max:10240',
+           
+            'numero_documento' => [
+                'required',
+                Rule::unique('clientes')->where(function ($query) use ($request) {
+                    return $query->where('tipo_documento', $request->tipo_documento);
+                })->ignore($request->cliente_id)
+            ],
         ], $messages);
-        
+    
         DB::beginTransaction();
         try {
             if(isset($request->update) && $request->update==1){
                 $cliente = Cliente::find($request->cliente_id);
             }else{
-                $cliente = Cliente::where([
-                    'tipo_documento'=>$request->input('tipo_documento'),
-                    'numero_documento'=>$request->input('numero_documento')
+                // Verificar si el cliente ya existe
+                $clienteExistente = Cliente::where([
+                    'tipo_documento' => $request->input('tipo_documento'),
+                    'numero_documento' => $request->input('numero_documento')
                 ])->first();
-                if($cliente && isset($cliente->nombre)){
-                    $cliente = $cliente;
-                }else{
-                    $cliente = new Cliente();
+
+                if($clienteExistente){
+                    DB::rollBack();
+                    return redirect()->back()->withInput()->with([
+                        "danger" => "Ya existe un cliente con este tipo y número de documento.",
+                    ]);
                 }
-                
+
+                $cliente = new Cliente();
             }
+
             $cliente->nombre = $request->input('nombre');
             $cliente->tipo_documento = $request->input('tipo_documento');
             $cliente->numero_documento = $request->input('numero_documento');
@@ -91,6 +103,7 @@ class ClientesController extends Controller
             $cliente->denominacion_comercial = $request->input('denominacion_comercial');
             $cliente->persona_contacto = $request->input('persona_contacto');
             $cliente->cargo_profesion = $request->input('cargo_profesion');
+            
             $user = auth()->user();
             if ($user->can('Vendedor Externo')) {
                 $cliente->vendedor_id = auth()->user()->id;
@@ -100,24 +113,13 @@ class ClientesController extends Controller
             }
             
             $cliente->save();
-            if ($request->hasFile('file')) {
-                $files = $request->file('file');
-                foreach ($files as $key => $file) {
-                    $name = $request->input('nombre').time().rand(1,100).'.'.$file->extension();
-                    $file->move(public_path().'/files/clientes/', $name);
-                    $imagen = new ImagenCliente();
-                    $imagen->url_imagen = '/files/clientes/'.$name; 
-                    $imagen->cliente_id = $cliente->id;
-                    $imagen->save();
-                }
-               
-            }
-
             
+            
+
             DB::commit();
-           
+        
             return redirect()->route('clientes.index')->with([
-                "info" => "Cliente Creado  Exitosamente!",
+                "info" => "Cliente Creado Exitosamente!",
             ]);
         } catch (Exception $e) {
             DB::rollBack();
@@ -125,8 +127,6 @@ class ClientesController extends Controller
                 "danger" => "Cliente no pudo ser creado",
             ]);
         }  
-        
-
     }
     public function index(){
         $sectores = SectorComercial::all();

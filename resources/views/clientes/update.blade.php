@@ -128,40 +128,8 @@
                 </div>
 
 
-                <div class="row">
-                    <div class="col-sm-6">
-                        <label for="latitud">Latitud:</label>
-                        <input id="latitud" value="{{$cliente->latitud}}" type="number" step="any" class="form-control" name="latitud" required>
-                    </div>
-                    
-                    <div class="col-sm-6">
-                        <label for="longitud">Longitud:</label>
-                        <input id="longitud" value="{{$cliente->longitud}}" type="number" step="any" class="form-control" name="longitud" required>
-                    </div>
-
-                </div>
-               
-                <div class="row mt-2">
-                    <div class="col-sm-12">
-                        <button type="button" id="get-location" class="btn btn-default">Obtener Ubicación</button>    
-                    </div>
-                </div>
+            
               
-                <div class="row">
-                    <div class="col-sm-12">
-                        <label for="file">Imagen:</label>
-                        <input class="form-control" type="file" id="file" name="file[]" accept="image/*" capture="camera">
-                        @if($imagen_cliente && count($imagen_cliente))
-                        <br>
-                        @foreach ($imagen_cliente as $item)
-                        <div class="file-preview">
-                            <img src="{{ asset($item->url_imagen) }}" width="120px" class="open-popup" />
-                        </div>    
-                        @endforeach
-                        
-                        @endif
-                    </div>
-                </div>
 
                 <div class="form-row">
                     <div class="form-group col-md-12">
