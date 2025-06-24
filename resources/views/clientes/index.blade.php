@@ -37,7 +37,7 @@
         <form id="search-form" class="form-inline" role="form">
 
             
-            <input type="text" class="form-control flex-fill mr-2" name="cliente" id="cliente" placeholder="Buscar Cliente">
+            <input type="text" class="form-control flex-fill mr-2" name="cliente" id="cliente" placeholder="Buscar por nombre o documento">
             <select id="sector" name="sector" class="form-control flex-fill mr-2">
                 <option value="" selected disabled>Buscar Sector</option>
                 @foreach($sectores as $key => $sector)
@@ -66,6 +66,7 @@
             <thead>
             <tr>
                 <th>Cliente</th>
+                <th>Documento</th>
                 <th>Sector</th>
                 <th>Estado</th>
                 <th>Ciudad</th>
@@ -143,6 +144,7 @@ var oTable = $("#clientes").DataTable({
         },
         "columns":[
             {data: 'nombre'},
+            {data: 'documento'},
             {data: 'sector'},
             {data: 'estado'},
             {data: 'ciudad'},

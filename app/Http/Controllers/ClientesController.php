@@ -147,7 +147,8 @@ class ClientesController extends Controller
             'ciudades.nombre as ciudad',
             'sectores_comerciales.nombre as sector',
             'clientes.latitud',
-            'clientes.longitud'
+            'clientes.longitud',
+            DB::raw('concat(clientes.tipo_documento,\'-\',clientes.numero_documento) as documento')
         );
         $clientes->leftJoin('ciudades', 'ciudades.id',"=",'clientes.ciudad_id');
         $clientes->leftJoin('estados', 'estados.id',"=",'ciudades.estado_id');
@@ -155,7 +156,11 @@ class ClientesController extends Controller
         
 
         if ($request->has('cliente') && $request->cliente != '') {
-            $clientes->where('clientes.nombre', 'like', "%".$request->get('cliente')."%");
+            $searchTerm = $request->get('cliente');
+            $clientes->where(function($query) use ($searchTerm) {
+                $query->where('clientes.nombre', 'like', "%".$searchTerm."%")
+                    ->orWhere('clientes.numero_documento', 'like', "%".$searchTerm."%");
+            });
         }
         if (request()->has('estado') && $request->get('estado')!='') {
             $clientes->where('estados.id', '=', $request->get('estado'));
