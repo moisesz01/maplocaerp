@@ -40,12 +40,9 @@
                     </div>
                     <div class="col-sm-4">
                         <label for="nombre">Nombre</label>
-                        <input type="text" class="form-control" name="nombre" id="nombre">
+                        <input type="text" class="form-control" name="nombre" id="nombre" required>
                     </div>    
-                    <div class="col-sm-4">
-                        <label for="copiar_datos">Copiar datos</label>
-                        <input type="checkbox" name="copiar_datos" id="copiar_datos">
-                    </div> 
+                   
                     
                 </div>
                 <div class="row">
@@ -145,19 +142,12 @@
 <script src="{{ (Config::get('app.env')=='local')?asset('js/maploca.js'):secure_asset('js/maploca.js') }}"></script>
 <script>
     $(document).ready(function() {
-        $('#copiar_datos').on('change', function() {
-            
-            if ($(this).is(':checked')) {
-                var nombre = $('#nombre').val();
-                $('#denominacion_comercial').val(nombre);
-                $('#persona_contacto').val(nombre);
-               
-            } else {
-                $('#denominacion_comercial').val('');
-                $('#persona_contacto').val('');
-               
-            }
+       $('#nombre').on('input', function() {
+            var nombre = $(this).val();
+            $('#denominacion_comercial').val(nombre);
+            $('#persona_contacto').val(nombre);
         });
+
         $('#numero_documento').on('blur', function() {
             var tipoDocumento = $('#tipo_documento').val();
             var numeroDocumento = $(this).val();

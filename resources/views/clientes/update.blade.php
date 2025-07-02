@@ -38,12 +38,9 @@
                     </div>
                     <div class="col-sm-4">
                         <label for="nombre">Nombre</label>
-                        <input type="text" class="form-control" value="{{$cliente->nombre}}" name="nombre" id="nombre">
+                        <input type="text" class="form-control" value="{{$cliente->nombre}}" name="nombre" id="nombre" required>
                     </div>     
-                    <div class="col-sm-4">
-                        <label for="copiar_datos">Copiar datos</label>
-                        <input type="checkbox" name="copiar_datos" id="copiar_datos">
-                    </div> 
+                     
                     
                 </div>
 
@@ -71,7 +68,7 @@
                     </div>
                     <div class="col-sm-6">
                         <label for="telefono">Teléfono: (Formato ejm: 0424-1234567)</label>
-                        <input type="text" name="telefono" class="form-control" value="{{$cliente->telefono}}" pattern="[0-9]{4}-[0-9]{7}">
+                        <input type="text" name="telefono" class="form-control" value="{{$cliente->telefono}}" pattern="[0-9]{4}-[0-9]{7}" required>
                     </div>
                 </div>
                 @php
@@ -207,18 +204,10 @@ cursor: pointer;
 <script>
     $(document).ready(function() {
 
-        $('#copiar_datos').on('change', function() {
-            
-            if ($(this).is(':checked')) {
-                var nombre = $('#nombre').val();
-                $('#denominacion_comercial').val(nombre);
-                $('#persona_contacto').val(nombre);
-               
-            } else {
-                $('#denominacion_comercial').val('');
-                $('#persona_contacto').val('');
-               
-            }
+        $('#nombre').on('input', function() {
+            var nombre = $(this).val();
+            $('#denominacion_comercial').val(nombre);
+            $('#persona_contacto').val(nombre);
         });
         var ciudades = {!! json_encode($ciudades) !!};
         var modal = document.getElementById("myModal");
